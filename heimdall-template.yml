@@ -1,0 +1,20 @@
+# Application Dashboard  for all your web applications, and more. Dedicated place to view all your bookmarked apps/services/links and easy to manage.
+# check out https://heimdall.site/ for more info 
+# https://hub.docker.com/r/linuxserver/heimdall/
+# https://github.com/linuxserver/Heimdall
+---
+version: "2.5.0"
+services:
+  heimdall:
+    image: lscr.io/linuxserver/heimdall:latest
+    container_name: heimdall
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/New_york
+    volumes:
+      - /home/faze/heimdall/config:/config
+    ports:
+      - 8080:80
+      - 8443:443
+    restart: always
