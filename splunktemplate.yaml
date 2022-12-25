@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  splunk:
+    hostname: splunkenterprise
+    image: splunk/splunk:latest
+    restart: always
+    container_name: LocalSplunk
+    environment:
+      SPLUNK_START_ARGS: --accept-license --answer-yes
+      SPLUNK_ENABLE_LISTEN: 9997
+      SPLUNK_ADD: tcp 1514
+      SPLUNK_PASSWORD: CHANGEME! 
+#volumes:
+  #opt-splunk-etc: # volumes. same as issuing "docker volume create opt-splunk-etc"
+  #opt-splunk-var:
+    volumes:
+      - /home/faze/documents/dockervol/splunk/etc:/opt/splunk/etc # Bind mount. The following absolute path on the host machine is mounted into the container.
+      - /home/faze/documents/dockervol/splunk/var:/opt/splunk/var
+      #- opt-splunk-etc:/opt/splunk/etc # <YOUR_DIR OR VOLUME>:/mount/into/container
+      #- opt-splunk-var:/opt/splunk/var
+    ports:
+      - "9000:8000"  # <Host Port>:<Container Port>
+      - "9997:9997"
+      - "8088:8088"
+      - "1514:1514"
