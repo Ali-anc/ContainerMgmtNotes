@@ -1,0 +1,29 @@
+version: "3"
+
+#"The Pi-hole® is a DNS sinkhole that protects your devices from unwanted content without installing any client-side software."
+# More info at https://github.com/pi-hole/docker-pi-hole/ and https://docs.pi-hole.net/
+services:
+  pihole:
+    container_name: pihole
+    image: pihole/pihole:latest
+    # For DHCP it is recommended to remove these ports and instead add: network_mode: "host"
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "67:67/udp" # Only required if you are using Pi-hole as your DHCP server
+      - "8999:80/tcp"
+    environment:
+      TZ: 'America/New_york' # Choose TZ accordingly 
+      WEBPASSWORD: 'CHANGEME!'
+      ServerIP: 'YOUR-IP'
+    # Volumes store your data between container upgrades
+    volumes:
+      - '/home/faze/documents/dockervol/pihole/etc/:/etc/pihole'  # bind mount
+      - '/home/faze/documents/dockervol/pihole/dnsmasq.d/:/etc/dnsmasq.d'
+    #   https://github.com/pi-hole/docker-pi-hole#note-on-capabilities
+    cap_add:
+      - NET_ADMIN # Required if you are using Pi-hole as your DHCP server, else not needed
+    restart: always
+    
+# Using MACVLAN in Portainer.io
+# https://www.linkedin.com/pulse/using-macvlan-portainerio-neil-cresswell/
