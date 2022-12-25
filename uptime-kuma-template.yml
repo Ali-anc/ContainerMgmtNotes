@@ -1,0 +1,26 @@
+version: "3.3"
+services:
+  uptime-kuma:
+    image: louislam/uptime-kuma:latest
+    container_name: uptime-kuma
+
+    volumes:
+      - uptime-kumavol:/app/data      # using volume "uptime-kuma" to map into container
+    ports:
+      - 3001:3001  # <Host Port>:<Container Port>
+    restart: always
+volumes:    # creating volume called uptime-kuma
+  uptime-kumavol: 
+  
+
+####################The following can be achieved by docker cmds as well, view the following below. Make sure it’s run as root.####################
+
+#1)	Create Uptime-Kuma directory 
+#Mkdir /opt/config/uptime-kuma
+#2)	Create volume
+#docker volume create uptime-kuma
+#3)	Create the Uptime Kuma Container
+#docker run -d --restart=always -p <HOST-PORT>:3001 -v /opt/config/uptime-kuma:/app/data --name uptimekumav1 louislam/uptime-kuma:latest
+#4)	Start the Container
+#docker start uptimekumav1
+#5)	Make sure to allow ports if Firewall/SELinux enabled 
